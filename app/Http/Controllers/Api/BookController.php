@@ -30,14 +30,14 @@ class BookController extends Controller
 
 //     public function store(Request $request)
 // {
-//     // Validate incoming request
+//     
 //     $validator = Validator::make($request->all(), [
 //         'author' => 'required|string|max:191',
 //         'published' => 'required|string|max:191',
 //         'publisher' => 'required|string|max:191',
 //         'format' => 'required|string|max:191',
 //         'title' => 'nullable|string|max:255',
-//         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for image
+//         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
 //     ]);
 
 //     if ($validator->fails()) {
@@ -47,24 +47,24 @@ class BookController extends Controller
 //         ], 422);
 //     }
 
-//     // Initialize file path variable
+//     
 //     $imagePath = null;
 
-//     // Handle file upload if a file is present
+//    
 //     if ($request->hasFile('image')) {
 //         $image = $request->file('image');
 //         $imageName = time().'.'.$image->getClientOriginalExtension();
 //         $imagePath = $image->storeAs('public/images', $imageName);
 //     }
 
-//     // Create new book record
+//     
 //     $book = Book::create([
 //         'author' => $request->author,
 //         'published' => $request->published,
 //         'publisher' => $request->publisher,
 //         'format' => $request->format,
 //         'title' => $request->title,
-//         'image' => $imagePath ? str_replace('public/', 'storage/', $imagePath) : null, // Save path to image
+//         'image' => $imagePath ? str_replace('public/', 'storage/', $imagePath) :
 //         'random_number_13' => $this->generateRandomNumber13(), 
 //         'random_number_10' => $this->generateRandomNumber10(), 
 //     ]);
@@ -112,7 +112,7 @@ public function store(Request $request)
             'publisher' => $request->publisher,
             'format' => $request->format,
             'title' => $request->title,
-            'image' => $imagePath, // Store the path to the image
+            'image' => $imagePath, 
             'random_number_13' => $this->generateRandomNumber13(),
             'random_number_10' => $this->generateRandomNumber10(),
         ]);
@@ -175,8 +175,8 @@ public function store(Request $request)
     //         'format' => 'required|string|max:191',
     //         'title' => 'nullable|string|max:255',
     //         'image' => 'nullable|string|max:255',
-    //         'random_number_13' => 'nullable|digits:13|regex:/^9\d{12}$/', // 13 digits starting with 9
-    //         'random_number_10' => 'nullable|digits:10|regex:/^0\d{9}$/', // 10 digits starting with 0
+    //         'random_number_13' => 'nullable|digits:13|regex:/^9\d{12}$/', 
+    //         'random_number_10' => 'nullable|digits:10|regex:/^0\d{9}$/', 
     //     ]);
 
     //     if($validator->fails()){
@@ -308,7 +308,7 @@ public function store(Request $request)
 
         if ($request->file('image')) {
             $file = $request->file('image');
-            $path = $file->store('images', 'public'); // Save to storage/app/public/images
+            $path = $file->store('images', 'public'); 
             return response()->json(['imagePath' => Storage::url($path)]);
         }
 
