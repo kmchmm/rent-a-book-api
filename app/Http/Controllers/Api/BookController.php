@@ -13,12 +13,15 @@ use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
-    public function index(){
-        $book = Book::all();
-        if($book->count() > 0){
+    public function index(Request $request)
+    {
+        // Paginate with 10 books per page
+        $books = Book::paginate(3);
+
+        if ($books->count() > 0) {
             return response()->json([
                 'status' => 200,
-                'books' => $book
+                'books' => $books
             ], 200);
         } else {
             return response()->json([
@@ -270,34 +273,19 @@ public function store(Request $request)
     }
     public function destroy($id)
     {
-        \Log::info('Attempting to delete book with ID: ' . $id);
-    
-        try {
-            $book = Book::find($id);
-    
-            if ($book) {
-                $book->delete();
-                \Log::info('Book deleted successfully with ID: ' . $id);
-    
-                return response()->json([
-                    'status' => 200,
-                    'message' => "Book deleted successfully"
-                ], 200);
-            } else {
-                \Log::error('No book found with ID: ' . $id);
-    
-                return response()->json([
-                    'status' => 404,
-                    'message' => "No book found with ID: " . $id
-                ], 404);
-            }
-        } catch (\Exception $e) {
-            \Log::error('Error deleting book with ID: ' . $id . ' - ' . $e->getMessage());
-    
+        $book = Book::find($id);
+
+        if ($book) {
+            $book->delete();
             return response()->json([
-                'status' => 500,
-                'message' => "An error occurred while trying to delete the book"
-            ], 500);
+                'status' => 200,
+                'message' => 'Book deleted successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No book found'
+            ], 404);
         }
     }
 
