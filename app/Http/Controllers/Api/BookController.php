@@ -155,6 +155,7 @@ public function store(Request $request)
     public function edit($id){
         $book = Book::find($id);
         if($book){
+            logger('Image path:', [$book->image]); 
             return response()->json([
                 'status' => 200,
                 'book' => $book
@@ -221,7 +222,7 @@ public function store(Request $request)
             'publisher' => 'required|string|max:191',
             'format' => 'required|string|max:191',
             'title' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|string',  
             'random_number_13' => 'nullable|digits:13|regex:/^9\d{12}$/',
             'random_number_10' => 'nullable|digits:10|regex:/^0\d{9}$/',
         ]);
@@ -236,13 +237,13 @@ public function store(Request $request)
         $book = Book::find($id);
     
         if ($book) {
-            $imagePath = $book->image;
-    
-            if ($request->hasFile('image')) {
-                if ($book->image && Storage::disk('public')->exists($book->image)) {
-                    Storage::disk('public')->delete($book->image);
-                }
-                $imagePath = $request->file('image')->store('images', 'public');
+            if ($request->has('image') && $request->image) {
+                $imageData = $request->image;
+                $fileName = uniqid() . '.png'; 
+                Storage::disk('public')->put('images/' . $fileName, base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData)));
+                $imagePath = 'images/' . $fileName;
+            } else {
+                $imagePath = $book->image;
             }
     
             $book->update([
@@ -251,7 +252,7 @@ public function store(Request $request)
                 'publisher' => $request->publisher,
                 'format' => $request->format,
                 'title' => $request->title,
-                'image' => $imagePath,
+                'image' => $imagePath,  
                 'random_number_13' => $request->random_number_13,
                 'random_number_10' => $request->random_number_10,
             ]);
