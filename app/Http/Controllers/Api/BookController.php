@@ -15,7 +15,6 @@ class BookController extends Controller
 {
     public function index(Request $request)
     {
-        // Paginate with 10 books per page
         $books = Book::paginate(3);
 
         if ($books->count() > 0) {
@@ -30,60 +29,6 @@ class BookController extends Controller
             ], 404);
         }
     }
-
-//     public function store(Request $request)
-// {
-//     
-//     $validator = Validator::make($request->all(), [
-//         'author' => 'required|string|max:191',
-//         'published' => 'required|string|max:191',
-//         'publisher' => 'required|string|max:191',
-//         'format' => 'required|string|max:191',
-//         'title' => 'nullable|string|max:255',
-//         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-//     ]);
-
-//     if ($validator->fails()) {
-//         return response()->json([
-//             'status' => 422,
-//             'errors' => $validator->messages()
-//         ], 422);
-//     }
-
-//     
-//     $imagePath = null;
-
-//    
-//     if ($request->hasFile('image')) {
-//         $image = $request->file('image');
-//         $imageName = time().'.'.$image->getClientOriginalExtension();
-//         $imagePath = $image->storeAs('public/images', $imageName);
-//     }
-
-//     
-//     $book = Book::create([
-//         'author' => $request->author,
-//         'published' => $request->published,
-//         'publisher' => $request->publisher,
-//         'format' => $request->format,
-//         'title' => $request->title,
-//         'image' => $imagePath ? str_replace('public/', 'storage/', $imagePath) :
-//         'random_number_13' => $this->generateRandomNumber13(), 
-//         'random_number_10' => $this->generateRandomNumber10(), 
-//     ]);
-
-//     if ($book) {
-//         return response()->json([
-//             'status' => 200,
-//             'message' => "Book created successfully"
-//         ], 200);
-//     } else {
-//         return response()->json([
-//             'status' => 500,
-//             'message' => "Something went wrong"
-//         ], 500); 
-//     }
-// }
 
 public function store(Request $request)
 {
@@ -171,50 +116,6 @@ public function store(Request $request)
         }
     }
 
-    // public function update(Request $request, int $id){
-    //     $validator = Validator::make($request->all(), [
-    //         'author' => 'required|string|max:191',
-    //         'published' => 'required|string|max:191',
-    //         'publisher' => 'required|string|max:191',
-    //         'format' => 'required|string|max:191',
-    //         'title' => 'nullable|string|max:255',
-    //         'image' => 'nullable|string|max:255',
-    //         'random_number_13' => 'nullable|digits:13|regex:/^9\d{12}$/', 
-    //         'random_number_10' => 'nullable|digits:10|regex:/^0\d{9}$/', 
-    //     ]);
-
-    //     if($validator->fails()){
-    //         return response()->json([
-    //             'status' => 422,
-    //             'errors' => $validator->messages()
-    //         ], 422);
-    //     } else {
-    //         $book = Book::find($id);
-
-    //         if($book){
-    //             $book->update([
-    //                 'author' => $request->author,
-    //                 'published' => $request->published,
-    //                 'publisher' => $request->publisher,
-    //                 'format' => $request->format,
-    //                 'title' => $request->title,
-    //                 'image' => $request->image,
-    //                 'random_number_13' => $request->random_number_13,
-    //                 'random_number_10' => $request->random_number_10,
-    //             ]);
-
-    //             return response()->json([
-    //                 'status' => 200,
-    //                 'message' => "Book updated successfully"
-    //             ], 200);
-    //         } else {
-    //             return response()->json([
-    //                 'status' => 404,
-    //                 'message' => "No book found"
-    //             ], 404); 
-    //         }
-    //     }
-    // }
 
 
     public function update(Request $request, $id)
